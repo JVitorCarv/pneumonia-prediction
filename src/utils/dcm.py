@@ -65,16 +65,7 @@ def process_directory(input_dir: str, output_dir: str, max_workers: int = 12) ->
 
 
 def main() -> None:
-    train_input_dir = "rsna-pneumonia-detection-challenge/stage_2_train_images"
-    train_output_dir = "rsna-pneumonia-detection-challenge/train"
-    test_input_dir = "rsna-pneumonia-detection-challenge/stage_2_test_images"
-    test_output_dir = "rsna-pneumonia-detection-challenge/test"
-
-    print("Processing training data...")
-    process_directory(train_input_dir, train_output_dir, max_workers=12)
-
-    print("Processing test data...")
-    process_directory(test_input_dir, test_output_dir, max_workers=12)
+    pass
 
 
 if __name__ == "__main__":

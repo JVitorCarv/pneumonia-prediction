@@ -1,27 +1,31 @@
 import os
-from dcm_converter import process_directory
-from file_utils import move_files, move_random_files, process_csv, sort_and_rename_files
+from utils.dcm import process_directory
+from utils.files import (
+    clear_data_directory,
+    move_files,
+    move_random_files,
+    process_csv,
+    sort_and_rename_files,
+)
 
-RSNA_PATH = "rsna-pneumonia-detection-challenge"
-CHEST_XRAY_PATH = "archive/chest_xray"
-RAW_PATH = "raw_dataset"
+RSNA_PATH = "./data/rsna-pneumonia-detection-challenge"
+CHEST_XRAY_PATH = "./data/chest_xray"
+RAW_PATH = "./data/raw_dataset"
 SEED = 913
 
 
 def process_data():
     print("Processing training data...")
     process_directory(
-        f"{RSNA_PATH}/stage_2_train_images", f"{RSNA_PATH}/train", max_workers=12
+        "./data/stage_2_train_images", f"{RSNA_PATH}/train", max_workers=12
     )
     print("Processing test data...")
-    process_directory(
-        f"{RSNA_PATH}/stage_2_test_images", f"{RSNA_PATH}/test", max_workers=12
-    )
+    process_directory("./data/stage_2_test_images", f"{RSNA_PATH}/test", max_workers=12)
 
 
 def process_labels():
     process_csv(
-        f"{RSNA_PATH}/stage_2_train_labels.csv",
+        "./data/stage_2_train_labels.csv",
         f"{RSNA_PATH}/train",
         f"{RSNA_PATH}/renamed",
         max_workers=12,
@@ -112,6 +116,7 @@ def main():
     move_random_samples()
     organize_directories()
     move_files_to_raw_dataset()
+    clear_data_directory("./data", keep="raw_dataset")
 
 
 if __name__ == "__main__":

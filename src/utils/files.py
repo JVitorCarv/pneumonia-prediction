@@ -2,8 +2,28 @@ import os
 import shutil
 import pandas as pd
 import random
-from PIL import Image
 from concurrent.futures import ThreadPoolExecutor
+
+
+def clear_data_directory(data_path: str, keep: str) -> None:
+    """
+    Clears all data except from keep string
+
+    Args:
+        data_path (str): The path that will be cleared.
+        keep (str): Data to keep.
+    """
+    for item in os.listdir(data_path):
+        item_path = os.path.join(data_path, item)
+        if item != keep:
+            try:
+                if os.path.isfile(item_path) or os.path.islink(item_path):
+                    os.unlink(item_path)
+                elif os.path.isdir(item_path):
+                    shutil.rmtree(item_path)
+                print(f"Deleted {item_path}")
+            except Exception as e:
+                print(f"Failed to delete {item_path}. Reason: {e}")
 
 
 def copy_image(patient_id: str, target: int, input_dir: str, output_dir: str) -> None:
@@ -152,107 +172,7 @@ def move_random_files(
 
 
 def main() -> None:
-    rsna_path = "rsna-pneumonia-detection-challenge/"
-
-    csv_file = rsna_path + "stage_2_train_labels.csv"
-    input_dir = rsna_path + "rsna-pneumonia-detection-challenge/train"
-    output_dir = rsna_path + "renamed"
-
-    process_csv(csv_file, input_dir, output_dir, max_workers=12)
-
-    # Directories to organize
-    chest_xray_path = "archive/chest_xray/"
-    rsna_path += "renamed/"
-
-    directories = [
-        chest_xray_path + "train/NORMAL",
-        chest_xray_path + "train/PNEUMONIA",
-        chest_xray_path + "test/NORMAL",
-        chest_xray_path + "test/PNEUMONIA",
-        rsna_path + "normal",
-        rsna_path + "pneumonia",
-    ]
-
-    # Move validation files to test directories
-    move_files(chest_xray_path + "val/NORMAL", chest_xray_path + "test/NORMAL")
-    move_files(chest_xray_path + "val/PNEUMONIA", chest_xray_path + "test/PNEUMONIA")
-
-    seed = 42  # You can change this seed value if needed
-    move_random_files(
-        chest_xray_path + "train/NORMAL", chest_xray_path + "test/NORMAL", 41, seed
-    )
-    move_random_files(
-        chest_xray_path + "train/PNEUMONIA",
-        chest_xray_path + "test/PNEUMONIA",
-        42,
-        seed,
-    )
-
-    # Organize each directory
-    for directory in directories:
-        if os.path.exists(directory):
-            print(f"Organizing directory: {directory}")
-            sort_and_rename_files(directory)
-        else:
-            print(f"Directory {directory} does not exist")
-
-    raw_path = "raw_dataset/"
-    train_path = raw_path + "train/"
-    test_path = raw_path + "test/"
-
-    # Moving XRAY files to the raw_dataset
-    move_files(
-        src_dir=chest_xray_path + "train/NORMAL",
-        dest_dir=train_path + "normal",
-        dest_prefix="xray_",
-    )
-    move_files(
-        src_dir=chest_xray_path + "test/NORMAL",
-        dest_dir=test_path + "normal",
-        dest_prefix="xray_",
-    )
-    move_files(
-        src_dir=chest_xray_path + "test/PNEUMONIA",
-        dest_dir=test_path + "pneumonia",
-        dest_prefix="xray_",
-    )
-    move_random_files(
-        src_dir=chest_xray_path + "train/PNEUMONIA",
-        dest_dir=train_path + "pneumonia",
-        num_files=2000,
-        seed=seed,
-        dest_prefix="xray_",
-    )
-
-    # Moving RSNA files to raw dataset
-    move_random_files(
-        src_dir=rsna_path + "normal",
-        dest_dir=train_path + "normal",
-        num_files=1700,
-        seed=seed,
-        dest_prefix="rsna_",
-    )
-    move_random_files(
-        src_dir=rsna_path + "normal",
-        dest_dir=test_path + "normal",
-        num_files=375,
-        seed=seed,
-        dest_prefix="rsna_",
-    )
-    move_random_files(
-        src_dir=rsna_path + "pneumonia",
-        dest_dir=train_path + "pneumonia",
-        num_files=2000,
-        seed=seed,
-        dest_prefix="rsna_",
-    )
-    move_random_files(
-        src_dir=rsna_path + "pneumonia",
-        dest_dir=test_path + "pneumonia",
-        num_files=440,
-        seed=seed,
-        dest_prefix="rsna_",
-    )
+    pass
 
 
 if __name__ == "__main__":
