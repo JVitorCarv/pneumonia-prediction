@@ -136,7 +136,7 @@ def move_files(src_dir: str, dest_dir: str, dest_prefix: str = "") -> None:
 def move_random_files(
     src_dir: str,
     dest_dir: str,
-    num_files: str,
+    num_files: int,
     seed: int | None = None,
     dest_prefix: str = "",
 ) -> None:

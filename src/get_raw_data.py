@@ -86,7 +86,7 @@ def move_files_to_raw_dataset():
     move_random_files(
         f"{CHEST_XRAY_PATH}/train/PNEUMONIA",
         f"{train_path}/pneumonia",
-        2000,
+        1300,
         SEED,
         dest_prefix="xray_",
     )
@@ -96,16 +96,16 @@ def move_files_to_raw_dataset():
     rsna_pneumonia_path = f"{RSNA_PATH}/renamed/pneumonia"
 
     move_random_files(
-        rsna_normal_path, f"{train_path}/normal", 1700, SEED, dest_prefix="rsna_"
+        rsna_normal_path, f"{train_path}/normal", 1300, SEED, dest_prefix="rsna_"
     )
     move_random_files(
-        rsna_normal_path, f"{test_path}/normal", 375, SEED, dest_prefix="rsna_"
+        rsna_normal_path, f"{test_path}/normal", 370, SEED, dest_prefix="rsna_"
     )
     move_random_files(
-        rsna_pneumonia_path, f"{train_path}/pneumonia", 2000, SEED, dest_prefix="rsna_"
+        rsna_pneumonia_path, f"{train_path}/pneumonia", 1300, SEED, dest_prefix="rsna_"
     )
     move_random_files(
-        rsna_pneumonia_path, f"{test_path}/pneumonia", 440, SEED, dest_prefix="rsna_"
+        rsna_pneumonia_path, f"{test_path}/pneumonia", 370, SEED, dest_prefix="rsna_"
     )
 
 
