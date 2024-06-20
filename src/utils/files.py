@@ -58,6 +58,20 @@ def copy_image(patient_id: str, target: int, input_dir: str, output_dir: str) ->
         print(f"File {input_file} not found.")
 
 
+def delete_directory(directory: str) -> None:
+    """
+    Delete a directory and all its contents.
+
+    Args:
+        directory (str): Path to the directory to delete.
+    """
+    try:
+        shutil.rmtree(directory)
+        print(f"Deleted directory {directory}")
+    except Exception as e:
+        print(f"Failed to delete directory {directory}. Reason: {e}")
+
+
 def process_csv(
     csv_file: str, input_dir: str, output_dir: str, max_workers: int = 12
 ) -> None:
